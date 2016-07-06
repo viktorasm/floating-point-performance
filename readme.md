@@ -21,7 +21,7 @@ Only single-threaded performance was being tested.
 * Even though the algorithm per vector is not too trivial, floating point operations don't seem to be the bottleneck - instead, memory bandwidth is;
 * For very low vector sizes, both `double` and `float` performance was comparable;
 * For vector size above `16`, floats start to perform better, with certain thresholds giving significant boost: normalization of vector length 14 is 30% slower than normalizing vector of length 16 (other thresholds - 8, 24, 32, 40, 48), giving the hint that vector length should be multiples of 8.
-* As assumed, contiguous block of memory for all vectors seems to be a lot faster than allocating each vector separately.
+* As assumed, accessing contiguous block of memory for all vectors seems to be a lot faster due to pre-fetched memory.
 
 ## Sample output
 
@@ -33,7 +33,7 @@ Above graph shows:
 * Y axis: time in seconds
 * measurement: normalize 100,000 vectors 100 times (the lower the better);
 
-It can clearly seen how multiples of 8 give much better performance for floats. Overall floats start to win once buffer sizes grow up.
+It can clearly seen how multiples of 8 give much better performance for floats. Overall floats start to win once vector sizes grow up.
 
 
 ## TODO
