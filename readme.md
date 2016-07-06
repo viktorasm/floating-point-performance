@@ -8,9 +8,11 @@ Decisions to be made:
 * 2-dimensional matrix memory layout: single-buffer vs buffer-per-vector - any performance drawbacks, not counting the allocation time;
 
 
-C++ application runs multiple tests (with M being `1,000, 10,000, 100,000`) and vector length range `[1..64]`, for both `float` and `double` as vector component types, and for different memory allocation types. Output is simple CSV report.
+C++ application runs multiple tests (with M being `1,000, 10,000, 100,000`) and vector length range `[1..64]`, for both `float` and `double` as vector component types, and for different memory allocation types.
 
-Python script then helps to crunch the numbers into interactive HTML line chart for later analysis. Sample of captured data and produced html is available in `visualise` folder.
+Each M x N combination was tested multiple times, each time on a different buffer (allocation/initialization not included in measured time).
+
+Python script then crunches through the numbers into interactive HTML line chart for later analysis. Sample of captured data and produced html is available in `visualise` folder.
 
 Only single-threaded performance was being tested.
 
@@ -19,8 +21,7 @@ Only single-threaded performance was being tested.
 * Even though the algorithm per vector is not too trivial, floating point operations don't seem to be the bottleneck - instead, memory bandwidth is;
 * For very low vector sizes, both `double` and `float` performance was comparable;
 * For vector size above `16`, floats start to perform better, with certain thresholds giving significant boost: normalization of vector length 14 is 30% slower than normalizing vector of length 16 (other thresholds - 8, 24, 32, 40, 48), giving the hint that vector length should be multiples of 8.
-* No huge decrease in performance for multi-buffer memory layout; this can help in the future knowing that one contiguous block for all vectors is not required for performance; 
-* Conclusion - seems like floats are the way to go, given that most values in vectors do not exceed 1.0, and precision of single value should be good enough;
+* As assumed, contiguous block of memory for all vectors seems to be a lot faster than allocating each vector separately.
 
 ## Sample output
 
