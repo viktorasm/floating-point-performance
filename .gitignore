@@ -1,0 +1,9 @@
+.metadata
+.vs
+.RemoteSystemsTempFiles
+.project
+windows/out
+windows/vc140.idb
+windows/x64
+*.vcxproj.user
+.pydevproject
